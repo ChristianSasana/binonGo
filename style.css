@@ -1,0 +1,35 @@
+body {
+    
+    background-color: #cc230a;
+    color: #FADA5E;
+}
+
+.accordion-item {
+    text-align: center;
+    border: 1px solid #FADA5E;
+    background-color: #cc230a;
+    color: #FADA5E;
+}
+
+.accordion button {
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #FADA5E;
+    background-color: #cc230a;
+    color: #FADA5E;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #f4c430;
+    color: black;
+}
+
+#map {
+    height: 400px; 
+}
+
+.mapDetails{
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
