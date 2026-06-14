@@ -30,65 +30,226 @@
             Pick a spot
         </h2>
         <div class="accordion pt-5" id="accordionExample">
+            <!-- start -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" id="EngBeeTin" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         <div>
-                            <span>End Bee Tin</span>
-                            <div class="mapDetails" id="mapDetails">
-                                <p id="distance"></p>
-                                <p id="eta"></p>
+                            <span>Eng Bee Tin</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
                                 <p id="steps"></p>
                             </div>
                         </div>
-
                     </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div id="map">
-
-                        </div>
+                        <div id="map"></div>
                     </div>
                 </div>
             </div>
+            <!-- end -->
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    <button class="accordion-button collapsed" id="ChuanKee" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Chuan Kee
+                        <div>
+                            <span>Chuan Kee</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <strong>This is the second item’s accordion body.</strong> It is hidden by default, until the
-                        collapse plugin adds the appropriate classes that we use to style each element. These classes
-                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
-                        modify any of this with custom CSS or overriding our default variables. It’s also worth noting
-                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
-                        does limit overflow.
+                        <div id="map"></div>
                     </div>
                 </div>
             </div>
+
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    <button class="accordion-button collapsed" id="YingYing" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Ying Ying Tea House
+                        <div>
+                            <span>Ying Ying Tea House</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
                     </button>
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <strong>This is the third item’s accordion body.</strong> It is hidden by default, until the
-                        collapse plugin adds the appropriate classes that we use to style each element. These classes
-                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
-                        modify any of this with custom CSS or overriding our default variables. It’s also worth noting
-                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
-                        does limit overflow.
+                        <div id="map"></div>
                     </div>
                 </div>
             </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" id="Sincerity" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        <div>
+                            <span>Sincerity Restaurant</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" id="DongBei" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                        <div>
+                            <span>Dong Bei Dumplings</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" id="ShanghaiSiopao" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="true"
+                        aria-controls="collapseSix">
+                        <div>
+                            <span>Shanghai Fried Siopao</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="map" class="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" id="WanNan" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
+                        <div>
+                            <span>Wan Nan Eatery</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" id="QuickSnack" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
+                        <div>
+                            <span>Quick Snack</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" id="WaiYing" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
+                        <div>
+                            <span>Wai Ying Fast Food</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" id="FourSeason" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen">
+                        <div>
+                            <span>Four Season Noodle House</span>
+                            <div class="routeDetails" id="routeDetails">
+                                <p class="distance"></p>
+                                <p class="eta"></p>
+                                <p class="coords"></p>
+                                <p id="steps"></p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
     <footer>
