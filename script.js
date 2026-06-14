@@ -61,11 +61,11 @@ function getLocation(mapID, endLng, endLat, accordionItem) {
         position => success(position, mapID, endLng, endLat, accordionItem), 
         error,
         {
-            enableHighAccuracy: true
+            enableHighAccuracy: false
         }
     );
   } else {
-    x.innerHTML = "Geolocation is not supported by this browser.";
+    alert("Geolocation is not supported by this browser.");
   }
 }
 
@@ -135,7 +135,7 @@ function updateRoute(startLng, startLat, endLng, endLat, accordionItem) {
 
 
 function generateMap(startLng, startLat, mapID){
-
+    console.log("Map Generated");
     if(activeMap) activeMap.remove();
 
     const binondoBounds = [
