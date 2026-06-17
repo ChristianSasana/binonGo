@@ -1,8 +1,15 @@
 body {
-    
     background-color: #cc230a;
     color: #FADA5E;
 }
+
+h1, h2, footer{
+    font-family: "Black Han Sans", sans-serif;
+}
+
+main {
+    padding: 2rem;
+} 
 
 .accordion-item {
     text-align: center;
@@ -11,7 +18,10 @@ body {
     color: #FADA5E;
 }
 
-.accordion button {
+.accordion-button {
+    font-family: "Chiron Hei HK", sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
     align-items: center;
     justify-content: center;
     border: 1px solid #FADA5E;
@@ -19,18 +29,51 @@ body {
     color: #FADA5E;
 }
 
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FADA5E'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+ }
+
+ .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+ }
+
 .accordion-button:not(.collapsed) {
     background-color: #f4c430;
     color: black;
 }
 
-#map {
-    height: 400px; 
+.map {
+    height: 500px; 
 }
-
 
 .routeDetails{
     display: flex;
     align-items: center;
-    gap: 2.5rem;
+    gap: 1.5rem;
+    padding-top: 10px;
+}
+
+footer {
+    font-size: 2rem;
+    text-align: center;
+    height: 50px;
+    margin-top: 1rem;
+    padding: 5rem;
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 1rem;
+    }
+    .routeDetails p {
+        font-size: 18px;
+    }
+    .accordion-button {
+        font-size: 1rem;
+        padding: .7rem;
+    }
+     
+    .accordion-body {
+        padding: 1px;
+    }
 }

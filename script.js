@@ -21,20 +21,28 @@ const accordionCollapse = document.querySelectorAll('.accordion-collapse');
 accordionCollapse.forEach(collapseEvent => {
     collapseEvent.addEventListener('shown.bs.collapse', function (event) {
         const accordionItem = this.closest(".accordion-item");
-        const button = accordionItem.querySelector(".accordion-button");
+        const button = accordionItem.querySelector(".accordion-button"); 
+        console.log("Accordion:", button.id);
         //get the coords based on name of ID
         const coords = locations[button.id];
         //find the map Id
-        const mapID = accordionItem.querySelector("[id^='map']");
+        const map = accordionItem.querySelector('.map');
+        map.id = 'map';
+        //const mapID = `map-${button.id}`;
+        //map.id = mapID;
+        //const mapID = accordionItem.querySelector("[id^='map']");
+        map.scrollIntoView({behavior: "instant", block: "center"});
         //check if coords and mapId exists
-        if (coords && mapID) {
-            getRoute(coords.lng, coords.lat, mapID, accordionItem);
+        if (coords) {
+            getRoute(coords.lng, coords.lat, accordionItem);
         }
         const details = accordionItem.querySelector(".routeDetails");
         if (details) details.style.display = "flex";
     });
     collapseEvent.addEventListener('hidden.bs.collapse', function (event) {
         const accordionItem = this.closest(".accordion-item");
+        const map = accordionItem.querySelector('.map');
+        map.removeAttribute('id');
 
         const details = accordionItem.querySelector(".routeDetails");
         if (details) details.style.display = "none";
@@ -48,46 +56,58 @@ accordionCollapse.forEach(collapseEvent => {
             navigator.geolocation.clearWatch(watchID);
             watchID = null;
         }
+
     });
 });
 
-function getRoute(endLng, endLat, mapID, accordionItem) {
-    getLocation(mapID, endLng, endLat, accordionItem);
+function getRoute(endLng, endLat, accordionItem) {
+    console.log("getRoute started", endLng, endLat);
+    getLocation(endLng, endLat, accordionItem);
 }
 
-function getLocation(mapID, endLng, endLat, accordionItem) {
-  if (navigator.geolocation) {
+function getLocation(endLng, endLat, accordionItem) {
+    console.log("getLocation started", endLng, endLat);
+
+    if (watchID) {
+    navigator.geolocation.clearWatch(watchID);
+    watchID = null;
+    }
+    if (userMarker) {
+    userMarker = null; 
+    }
+    if (routeLine && activeMap) {
+        activeMap.removeLayer(routeLine);
+        routeLine = null;
+    }
+    if (navigator.geolocation) {
     watchID = navigator.geolocation.watchPosition(
-        position => success(position, mapID, endLng, endLat, accordionItem), 
+        position => success(position, endLng, endLat, accordionItem), 
         error,
         {
             enableHighAccuracy: false
         }
     );
-  } else {
+    } else {
     alert("Geolocation is not supported by this browser.");
-  }
-}
+    }
+} 
 
-function success(position, mapID, endLng, endLat, accordionItem) {
-  startLat = position.coords.latitude;
-  startLng = position.coords.longitude;
-  console.log(startLat, startLng);
+function success(position, endLng, endLat, accordionItem) {
+    startLat = position.coords.latitude;
+    startLng = position.coords.longitude;
+    console.log("success started", endLng, endLat);
+    if (!activeMap) {
+    generateMap(startLng, startLat);
+    }
 
-  if (!activeMap) {
-    generateMap(startLat, startLng, mapID);
-  }
-
-  if (userMarker) {
+    if (userMarker) {
     userMarker.setLatLng([startLat, startLng]);
-  } else {
+    } else {
     userMarker = L.marker([startLat, startLng])
         .addTo (activeMap)
         .bindPopup ("Your Location");
-  }
-
-  updateRoute(startLng, startLat, endLng, endLat, accordionItem);
-
+    }
+    updateRoute(startLng, startLat, endLng, endLat, accordionItem);
 }
 
 function error() {
@@ -95,11 +115,13 @@ function error() {
 }
 
 function updateRoute(startLng, startLat, endLng, endLat, accordionItem) {
-
+    console.log("updateRoute started");
     const url ="http://localhost:5000/route/v1/foot/" +
     `${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson&steps=true`;
 
     fetch(url).then(res => res.json()).then(data => {
+        console.log("Fetching route for:", endLng, endLat);
+
         if (!data || data.routes.length === 0) return;
 
         const route = data.routes[0];
@@ -133,8 +155,7 @@ function updateRoute(startLng, startLat, endLng, endLat, accordionItem) {
     }
 }
 
-
-function generateMap(startLng, startLat, mapID){
+function generateMap(startLng, startLat){
     console.log("Map Generated");
     if(activeMap) activeMap.remove();
 
@@ -143,10 +164,10 @@ function generateMap(startLng, startLat, mapID){
         [14.615, 120.985]
     ];
 
-    activeMap = L.map(mapID, {
+    activeMap = L.map('map', {
         center: [startLng, startLat],
-        zoom: 18,
-        minZoom: 17,
+        zoom: 19,
+        minZoom: 18,
         maxZoom: 20,
         maxBounds: binondoBounds,
         maxBoundsViscosity: 1.0
@@ -157,36 +178,7 @@ function generateMap(startLng, startLat, mapID){
     maxNativeZoom: 19,
     maxZoom: 22
     }).addTo(activeMap);
-
-    L.marker([startLat, startLng]).addTo(activeMap).bindPopup("Your Location");
 }
-
-// let map;
-// let activeMap = null;
-// //set coords based on the selected accordion
-// const locations = {
-//     EngBeeTin: { lng: 120.9751, lat: 14.6000 },
-//     ChuanKee: { lng: 120.97523, lat: 14.59656 }
-// };
-
-// document.querySelectorAll(".accordion-button").forEach(item => {
-//     //make event listener to get open accordion
-//     item.addEventListener("click", function () {
-//         console.log("clicked");
-//         //get coords from the ids of the accordion
-//         const coords = locations[this.id];
-
-//         //get closest id
-//         const accordionItem = this.closest(".accordion-item");
-
-//         const mapContainer = accordionItem.querySelector("[id^='map']");
-
-//         if (coords && mapContainer) {
-//             //pass the selected coords to function
-//             getRoute(coords.lng, coords.lat, mapContainer, accordionItem);
-//         }
-//     });
-// });
 
 // function getRoute(endLng, endLat, mapContainer, accordionItem) {
 //     const startLng = 120.98138741123535;
@@ -244,49 +236,4 @@ function generateMap(startLng, startLat, mapID){
 //     });
 // }
 
-// const myCollapsible = document.querySelectorAll('.accordion-item')
-
-// myCollapsible.forEach(item =>{
-//     item.addEventListener('hidden.bs.collapse', event => {
-//         console.log("Accordion closed!");
-//         document.getElementById("routeDetails").style.display = "none";
-//     });
-// });
-
-// myCollapsible.forEach(item => {
-//     item.addEventListener('shown.bs.collapse', event => {
-//         document.getElementById("routeDetails").style.display = "flex";
-//     });
-// });
-
-// //disable map once an accordion is closed
-// //hook an event listener to checked if an accordion is closed
-// //make a function for generating the map
-
-
-// function generateMap(startLat, startLng, mapContainer) {
-//     if(activeMap){
-//         activeMap.remove();
-//     }
-
-//     const binondoBounds = [
-//     [14.595, 120.965],
-//     [14.615, 120.985]   
-//     ];
-
-//     activeMap = L.map(mapContainer, {
-//         center: [startLat, startLng],
-//         zoom: 18,
-//         minZoom: 18,
-//         maxZoom: 20,
-//         maxBounds: binondoBounds,
-//         maxBoundsViscosity: 1.0
-//     }); 
-
-//     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-//         attribution: '&copy; OpenStreetMap contributors',
-//         maxNativeZoom: 19,
-//         maxZoom: 22
-//     }).addTo(activeMap);
-// }
 
