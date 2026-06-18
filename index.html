@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 
 <body>
@@ -31,7 +32,19 @@
         <h2>
             Pick a spot
         </h2>
-        <div class="accordion pt-5" id="accordionExample">
+        <div class="searchBar" onclick="showSearch()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input onkeyup="search()" type="text" id="location" class="location" name="location">
+            <span>
+                <span>Craving Something ?</span>
+                <span>Hopia</span>
+                <span>Dimsum</span>
+                <span>Noodles</span>
+                <span>XiaoLongBao</span>
+                <span>Fried Siopao</span>
+            </span>
+        </div>
+        <div class="accordion" id="accordionExample">
             <!-- start -->
             <div class="accordion-item">
                 <h2 class="accordion-header">

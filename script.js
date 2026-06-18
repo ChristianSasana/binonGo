@@ -4,7 +4,7 @@ let routeLine = null;
 let watchID = null;
 
 const locations = {
-    EngBeeTin: {lng: 120.97549015149116, lat: 14.600099176352767},
+    EngBeeTin: {lng: 120.97516234196503, lat: 14.600126331277705},
     ChuanKee: {lng: 120.97552624754503, lat:14.600343025690094},
     YingYing: {lng: 120.97671296490923, lat: 14.597969310833896},
     Sincerity: {lng: 120.97521744366803, lat: 14.599087193844603},
@@ -40,6 +40,7 @@ accordionCollapse.forEach(collapseEvent => {
         if (details) details.style.display = "flex";
     });
     collapseEvent.addEventListener('hidden.bs.collapse', function (event) {
+        console.log("closed")
         const accordionItem = this.closest(".accordion-item");
         const map = accordionItem.querySelector('.map');
         map.removeAttribute('id');
@@ -95,6 +96,7 @@ function getLocation(endLng, endLat, accordionItem) {
 function success(position, endLng, endLat, accordionItem) {
     startLat = position.coords.latitude;
     startLng = position.coords.longitude;
+
     console.log("success started", endLng, endLat);
     if (!activeMap) {
     generateMap(startLng, startLat);
@@ -116,6 +118,11 @@ function error() {
 
 function updateRoute(startLng, startLat, endLng, endLat, accordionItem) {
     console.log("updateRoute started");
+    console.log(
+    `Route update:
+    Start: ${startLat}, ${startLng}
+    End: ${endLat}, ${endLng}`
+    );
     const url ="http://localhost:5000/route/v1/foot/" +
     `${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson&steps=true`;
 
@@ -130,7 +137,7 @@ function updateRoute(startLng, startLat, endLng, endLat, accordionItem) {
         const minutes = Math.round(route.duration / 60);
 
         accordionItem.querySelector(".distance").innerText = `${km} km`;
-        accordionItem.querySelector(".eta").innerText = `ETA: ${minutes} mins`;
+        accordionItem.querySelector(".eta").innerText = `ETA: ${minutes} min/s`;
         //accordionItem.querySelector(".coords").innerText = `Longitude: ${startLng} Lat: ${startLat}`;
 
         const coords = route.geometry.coordinates;
@@ -144,6 +151,10 @@ function updateRoute(startLng, startLat, endLng, endLat, accordionItem) {
             color: 'blue',
             weight: 5,
         }).addTo(activeMap);
+
+        console.log(
+            `Distance: ${(route.distance / 1000).toFixed(3)} km`
+        );
 
         activeMap.fitBounds(routeLine.getBounds(), {padding: [20, 20]});
     })
@@ -165,7 +176,7 @@ function generateMap(startLng, startLat){
     ];
 
     activeMap = L.map('map', {
-        center: [startLng, startLat],
+        center: [startLat, startLng],
         zoom: 19,
         minZoom: 18,
         maxZoom: 20,
@@ -178,6 +189,69 @@ function generateMap(startLng, startLat){
     maxNativeZoom: 19,
     maxZoom: 22
     }).addTo(activeMap);
+}
+
+function showSearch() {
+    console.log("clicked");
+    const searchBar = document.querySelector(".location");
+    searchBar.style.display = 'block';
+
+    const accordionElement = document.querySelector(".accordion-collapse.show");
+    if (accordionElement) {
+    const bootstrapCollapse = bootstrap.Collapse.getOrCreateInstance(accordionElement);
+    
+    bootstrapCollapse.hide();
+    }
+}
+
+const foodGroups = {
+    Hopia: ["Eng Bee Tin"],
+    Noodles: ["Chuan Kee", "Ying Ying Tea House","Wai Ying Fast Food"],
+    Dimsum: ["Dong Bei Dumplings", "Shanghai Fried Siopao", "Ying Ying Tea House"],
+    Seafood: ["Sincerity Restaurant", "Quick Snack", "Four Season Noodle House"],
+    Exotic: ["Four Season Noodle House", "Wan Nan Eatery"]
+};
+
+function search() {
+    let input, filter, accordionLocation, button, i, span, txtValue;
+
+    input = document.getElementById("location");
+    filter = input.value.toUpperCase();
+    accordionLocation = document.getElementById("accordionExample");
+    button = accordionLocation.getElementsByTagName("button");
+
+    // for(i = 0; i < button.length; i++) {
+    //     span = button[i].getElementsByTagName("span")[0];
+    //     txtValue = span.textContent || span.innerText;
+    //     if (txtValue.toUpperCase().includes(filter)){
+    //         button[i].style.display = "";
+    //     } else {
+    //         button[i].style.display = "none";
+    //     }
+    // }
+    for (i = 0; i < button.length; i++) {
+
+    span = button[i].getElementsByTagName("span")[0];
+    txtValue = span.textContent.trim();
+
+    let show = txtValue.toUpperCase().includes(filter);
+        //gets each property of foodgroups
+    for (const category in foodGroups) {
+        //get the values in the property of foodgroups
+        const restaurants = Object.values(foodGroups[category]);
+        console.log(restaurants);   
+        if (
+            //check if each property of foodgroups matches the value from user
+            category.toUpperCase().includes(filter) &&
+            //check if values from the properties matches the span text content
+            restaurants.includes(txtValue)
+        ) {
+            show = true;
+        }
+    }
+
+    button[i].style.display = show ? "" : "none";
+    }
 }
 
 // function getRoute(endLng, endLat, mapContainer, accordionItem) {

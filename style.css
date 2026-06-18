@@ -11,6 +11,77 @@ main {
     padding: 2rem;
 } 
 
+p {
+    margin-bottom: 0px;
+}
+
+.searchBar {
+    font: 1.4rem "Black Han Sans", san-serif;
+    display: flex;
+    justify-content: start;
+    padding: 10px;
+    margin-top: 4rem; 
+    margin-bottom: 1rem;
+    border: 2px solid;
+    border-radius: 20px;
+    width: 20rem;   
+
+    > span {
+        position: relative;
+		display: inline-block;
+		height: 1.25em;
+		vertical-align: bottom;
+		overflow: hidden;
+        span {
+			display: block;
+			animation: animateWords 7.5s infinite ease-out;
+        } 
+    }
+}
+
+@keyframes animateWords {
+	0% {
+		transform: translateY(0%);
+	}
+	
+	20% {
+		transform: translateY(-100%);
+	}
+	
+	40% {
+		transform: translateY(-200%);
+	}
+	
+	60% {
+		transform: translateY(-300%);
+	}
+
+    80% {
+        transform: translateY(-400%);
+    }
+	
+	100% {
+		transform: translateY(-500%);
+	}
+}
+
+.fa-solid {
+    padding-top: 3px;
+    margin-right: 10px;
+}
+#location {
+    font-family: "Chiron Hei HK", sans-serif;
+    background-color: #cc230a;
+    border: none;
+    width: 17rem;
+    display: none;
+    color: #FADA5E;
+}
+
+#location:focus {
+    outline: none;
+}
+
 .accordion-item {
     text-align: center;
     border: 1px solid #FADA5E;
@@ -64,6 +135,10 @@ footer {
 @media (max-width: 480px) {
     main {
         padding: 1rem;
+    }
+    .searchBar{
+        font-size: 1rem;
+        width: 15rem;  
     }
     .routeDetails p {
         font-size: 18px;
