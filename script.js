@@ -3,6 +3,9 @@ let userMarker = null;
 let routeLine = null;
 let watchID = null;
 
+const searchBar = document.querySelector(".location");
+const searchAnimation = document.getElementById("searchAnimation");
+
 const locations = {
     EngBeeTin: {lng: 120.97516234196503, lat: 14.600126331277705},
     ChuanKee: {lng: 120.97552624754503, lat:14.600343025690094},
@@ -13,13 +16,124 @@ const locations = {
     WanNan: {lng: 120.97939893328267, lat: 14.600918043880585}, 
     QuickSnack: {lng: 120.97699221794997, lat: 14.599914152598268},
     WaiYing: {lng: 120.97614043960844, lat: 14.602082078087003},
-    FourSeason: {lng: 120.97256760562247, lat: 14.598993795923958}
+    FourSeason: {lng: 120.97256760562247, lat: 14.598993795923958},
+    LamDynasty: {lng: 120.97583195569408, lat: 14.598601751082287},
+    Delicious: {lng: 120.98047748007227, lat: 14.601059014472984},
+    NewEastern: {lng: 120.97936291522743, lat: 14.601306320962209},
+    DavidTeaHouse: {lng: 120.97914608045039, lat: 14.6007859021519},
+    Masuki: {lng: 120.9765237013056, lat: 14.60305812888516},
+    LGAFastfood: {lng: 120.97695047515849, lat: 14.601399371884453},
+    LordStow: {lng: 120.97564792427477, lat: 14.60091046888936},
+    NewPoHeng: {lng: 120.9754535671045, lat: 14.59960627611711},
+    GrandCafe: {lng: 120.97545894523562, lat: 14.59654064055826},
+    Polland: {lng: 120.97716640255882, lat: 14.597049350656311},
+    OldSaigon: {lng: 120.97642383662884, lat: 14.603450057797586},
+    Salazar: {lng: 120.97699034900829, lat: 14.60193136979033},
+    GoldenFortune: {lng: 120.97817292959901, lat: 14.603829025965332},
+    Oishiekun: {lng: 120.9779185802752, lat: 14.6015577104187},
+    CafeMezzanine: {lng: 120.97563033704158, lat: 14.600413102230661},
+    HoLand: {lng: 120.97507912267544, lat: 14.601266005891725}
 };
+
+const restaurants = {
+    EngBeeTin: ["Eng Bee Tin Flagship Store"],
+    ChuanKee: ["Chuan Kee Chinese Fast Food"],
+    YingYing: ["Ying Ying Tea House"],
+    Sincerity:["Sincerity Restaurant"],
+    DongBei: ["Dong Bei Dumplings"],
+    ShanghaiSiopao: ["Shanghai Fried Siopao"],
+    WanNan: ["Wan Nan Eatery"],
+    QuickSnack: ["Quick Snack"],
+    WaiYing: ["Wai Ying Fast Food"],
+    FourSeason: ["Four Season Noodle House"],
+    LamDynasty: ["Lam Dynasty"],
+    Delicious: ["Delicious Restaurant"],
+    NewEastern: ["New Eastern Garden Restaurant"],
+    DavidTeaHouse: ["David's Tea House"],
+    Masuki: ["Masuki"],
+    LGAFastfood: ["LGA Fastfood"],
+    LordStow: ["Lord Stow's Bakery"],
+    NewPoHeng: ["New Po Heng Lumpia House"],
+    GrandCafe: ["1919 Grand Cafe"],
+    Polland: ["Polland Hopia"],
+    OldSaigon: ["Old Saigon Vietnamese Restaurant"],
+    Salazar: ["Salazar Bakery"],
+    GoldenFortune: ["Golden Fortune Seafood Restaurant"],
+    Oishiekun: ["Oishiekun Chinese Bites"],
+    CafeMezzanine: ["Café Mezzanine"],
+    HoLand: ["Ho-land Hopia & Asian Deli Inc"]
+}
+let collapseCounter = 1;
+for (const accordionElem in restaurants) {
+    const restaurantName = restaurants[accordionElem][0];
+    //first div accordion-item
+    const newDiv = document.createElement("div");
+    newDiv.classList.add('accordion-item');
+    document.getElementById("accordionExample").appendChild(newDiv);
+    //h2 accordion-header
+    const newH2 = document.createElement("h2");
+    newH2.classList.add("accordion-header");
+    newDiv.appendChild(newH2);
+    //button accordion-button
+    const accordionButton = document.createElement("button");
+    accordionButton.classList.add("accordion-button", "collapsed");
+    accordionButton.id = accordionElem;
+    accordionButton.setAttribute("data-bs-toggle", "collapse");
+    accordionButton.setAttribute("data-bs-target", "#collapse"  + collapseCounter);
+    accordionButton.setAttribute("aria-expanded", "true");
+    accordionButton.setAttribute("aria-controls", "collapse"  + collapseCounter);
+    newH2.appendChild(accordionButton);
+    
+    const newDiv2 = document.createElement("div");
+    accordionButton.appendChild(newDiv2);
+    
+    const newSpan = document.createElement("span");
+    newSpan.innerText = restaurantName;
+    newDiv2.appendChild(newSpan);
+
+    const newDiv3 = document.createElement("div");
+    newDiv3.classList.add("routeDetails");
+    newDiv3.id = 'routeDetails';
+    newDiv2.appendChild(newDiv3);
+
+    const newP1 = document.createElement("p");
+    const newP2 = document.createElement("p");
+    const newP3 = document.createElement("p");
+    newP1.classList.add("distance");
+    newP2.classList.add("eta");
+    newP3.classList.add("coords");
+    newDiv3.appendChild(newP1);
+    newDiv3.appendChild(newP2);
+    newDiv3.appendChild(newP3);
+
+    const newDiv4 = document.createElement("div");
+    newDiv4.id = 'collapse' + collapseCounter;
+    newDiv4.classList.add("accordion-collapse", "collapse");
+    newDiv4.setAttribute("data-bs-parent", "#accordionExample");
+    newDiv.appendChild(newDiv4);
+
+    const newDiv5 = document.createElement("div");
+    newDiv5.classList.add("accordion-body");
+    newDiv4.appendChild(newDiv5);
+
+    const newDiv6 = document.createElement("div");
+    newDiv6.classList.add("map");
+    newDiv5.appendChild(newDiv6);
+
+    collapseCounter++;
+    console.log(collapseCounter);
+}
+
+//create an object with properties consisting of resturant details
+//for each the object to generate elements based on the array's data
+
 
 const accordionCollapse = document.querySelectorAll('.accordion-collapse');
 //look through all accordion with the class name
 accordionCollapse.forEach(collapseEvent => {
     collapseEvent.addEventListener('shown.bs.collapse', function (event) {
+        searchBar.style.display = 'none';
+        searchAnimation.style.display = 'block';
         const accordionItem = this.closest(".accordion-item");
         const button = accordionItem.querySelector(".accordion-button"); 
         console.log("Accordion:", button.id);
@@ -193,8 +307,9 @@ function generateMap(startLng, startLat){
 
 function showSearch() {
     console.log("clicked");
-    const searchBar = document.querySelector(".location");
     searchBar.style.display = 'block';
+
+    searchAnimation.style.display = 'none';
 
     const accordionElement = document.querySelector(".accordion-collapse.show");
     if (accordionElement) {
@@ -205,11 +320,15 @@ function showSearch() {
 }
 
 const foodGroups = {
-    Hopia: ["Eng Bee Tin"],
-    Noodles: ["Chuan Kee", "Ying Ying Tea House","Wai Ying Fast Food"],
-    Dimsum: ["Dong Bei Dumplings", "Shanghai Fried Siopao", "Ying Ying Tea House"],
-    Seafood: ["Sincerity Restaurant", "Quick Snack", "Four Season Noodle House"],
-    Exotic: ["Four Season Noodle House", "Wan Nan Eatery"]
+    Hopia: ["Eng Bee Tin", "Polland Hopia", "Ho-land Hopia & Asian Deli Inc"],
+    Bakery: ["Eng Bee Tin", "Polland Hopia", "Ho-land Hopia & Asian Deli Inc", "Salazar Bakery", "Lord Stow's Bakery"],
+    TakeOuts: ["Wan Nan Eatery", "Lord Stow's Bakery", "Eng Bee Tin", "Polland Hopia", "Ho-land Hopia & Asian Deli Inc", "Salazar Bakery", "Shanghai Fried Siopao", "Oishiekun Chinese Bites"],
+    Noodles: ["Four Season Noodle House", "Masuki","Wai Ying Fast Food", "Delicious Restaurant"],
+    Dimsum: ["Dong Bei Dumplings", "Wai Ying Fast Food", "Ying Ying Tea House", "David's Tea House"],
+    FastFood: ["Shanghai Fried Siopao", "New Pong Hei Lumpia House", "Wan Nan Eatery"],
+    Exotic: ["Four Season Noodle House", "Wan Nan Eatery", "LGA Fastfood"],
+    Cafe: ["1919 Grand Cafe", "Café Mezzanine"],
+    Dining: ["Sincerity Restaurant", "Quick Snack", "Ying Ying Tea House", "Golden Fortune Seafood Restaurant", "Lam Dynasty", "New Eastern Garden Restaurant"]
 };
 
 function search() {
@@ -220,15 +339,6 @@ function search() {
     accordionLocation = document.getElementById("accordionExample");
     button = accordionLocation.getElementsByTagName("button");
 
-    // for(i = 0; i < button.length; i++) {
-    //     span = button[i].getElementsByTagName("span")[0];
-    //     txtValue = span.textContent || span.innerText;
-    //     if (txtValue.toUpperCase().includes(filter)){
-    //         button[i].style.display = "";
-    //     } else {
-    //         button[i].style.display = "none";
-    //     }
-    // }
     for (i = 0; i < button.length; i++) {
 
     span = button[i].getElementsByTagName("span")[0];
