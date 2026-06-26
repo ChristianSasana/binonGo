@@ -237,7 +237,7 @@ function updateRoute(startLng, startLat, endLng, endLat, accordionItem) {
     Start: ${startLat}, ${startLng}
     End: ${endLat}, ${endLng}`
     );
-    const url ="http://localhost:5000/route/v1/foot/" +
+    const url ="https://sasanaserver.tail3f239f.ts.net/route/v1/foot/" +
     `${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson&steps=true`;
 
     fetch(url).then(res => res.json()).then(data => {
